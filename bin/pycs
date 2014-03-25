@@ -1,0 +1,55 @@
+#!/usr/bin/env python
+
+import os
+import sys
+import time
+
+import coffeescript
+
+
+def compile_paths(paths):
+    for p in paths:
+        print "compiling", p
+        js = coffeescript.compile_file(p)
+        fp, ext = os.path.splitext(p)
+        fp = fp + ".js"
+        with file(fp, 'w') as f:
+            f.write(js)
+
+
+def get_dict(path):
+    d = {}
+    abspath = os.path.abspath(path)
+
+    for f in os.listdir(path):
+        fp, ext = os.path.splitext(f)
+        if ext == ".coffee":
+            full = os.path.join(abspath, f)
+            d[full] = os.stat(full).st_mtime
+
+    return d
+
+
+def main(path):
+
+    before = get_dict(path)
+    compile_paths([f for f in before])
+
+    while 1:
+        after = get_dict(path)
+
+        added = [f for f in after if not f in before]
+        compile_paths(added)
+
+        changed = [
+            f for f in after if after[f] != before[f]
+        ]
+        compile_paths(changed)
+
+        before = after
+        time.sleep(5)
+
+
+if __name__ == "__main__":
+    path = sys.argv[1]
+    main(path)

@@ -40,4 +40,5 @@ setup(
     ],
     install_requires=['PyExecJS'],
     test_suite='test_coffeescript',
+    scripts=['bin/pycs'],
 )
