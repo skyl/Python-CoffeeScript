@@ -17,6 +17,16 @@ A short example
 
   }).call(this);
 
+
+Compile a directory
+-------------------
+
+There is a commandline utility that is installed, `pycs`.
+You may invoke it like so to find and compile all `.coffee` files under the current dir::
+
+  $ pycs .
+
+
 Installation
 ------------
 ::

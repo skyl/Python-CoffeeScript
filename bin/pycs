@@ -19,13 +19,13 @@ def compile_paths(paths):
 
 def get_dict(path):
     d = {}
-    abspath = os.path.abspath(path)
 
-    for f in os.listdir(path):
-        fp, ext = os.path.splitext(f)
-        if ext == ".coffee":
-            full = os.path.join(abspath, f)
-            d[full] = os.stat(full).st_mtime
+    for folder, subs, files in os.walk(path):
+        for f in files:
+            fp, ext = os.path.splitext(f)
+            if ext == ".coffee":
+                full = os.path.abspath(os.path.join(path, folder, f))
+                d[full] = os.stat(full).st_mtime
 
     return d
 
