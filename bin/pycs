@@ -9,12 +9,19 @@ import coffeescript
 
 def compile_paths(paths):
     for p in paths:
-        print "compiling", p
-        js = coffeescript.compile_file(p)
+        try:
+            js = coffeescript.compile_file(p)
+        except Exception as e:
+            print "error in", p
+            print e
+            print
+            continue
+
         fp, ext = os.path.splitext(p)
         fp = fp + ".js"
         with file(fp, 'w') as f:
             f.write(js)
+        print "compiled", p
 
 
 def get_dict(path):
