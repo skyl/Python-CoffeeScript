@@ -45,13 +45,11 @@ def main(path):
     while 1:
         after = get_dict(path)
 
-        added = [f for f in after if not f in before]
-        compile_paths(added)
-
-        changed = [
-            f for f in after if after[f] != before[f]
+        added_or_changed = [
+            f for f in after
+            if not f in before or after[f] != before[f]
         ]
-        compile_paths(changed)
+        compile_paths(added_or_changed)
 
         before = after
         time.sleep(1)
