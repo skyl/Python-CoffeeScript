@@ -10,7 +10,7 @@ import coffeescript
 def compile_paths(paths):
     for p in paths:
         try:
-            js = coffeescript.compile_file(p)
+            js = coffeescript.compile_file(p).encode('ascii', 'ignore')
         except Exception as e:
             print "error in", p
             print e
@@ -54,7 +54,7 @@ def main(path):
         compile_paths(changed)
 
         before = after
-        time.sleep(5)
+        time.sleep(1)
 
 
 if __name__ == "__main__":
